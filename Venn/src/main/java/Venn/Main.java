@@ -10,7 +10,6 @@ public class Main {
 		System.out.println("Edit 3 in Lab #2.1 ");
 
 
-
 	}
 
 }
