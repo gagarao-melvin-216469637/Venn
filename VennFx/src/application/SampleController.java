@@ -17,7 +17,6 @@ public class SampleController {
 	@FXML 
 	public void buttonClicked() {
 		information = textField.getText();
-		System.out.println(information);
-		System.out.println("Button CLicked!");
+		label.setText(information);
 	}
 }
