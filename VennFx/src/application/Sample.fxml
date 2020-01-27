@@ -7,14 +7,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane prefHeight="691.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.SampleController">
+<BorderPane prefHeight="691.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
   <!-- TODO Add Nodes -->
   <center>
     <Pane prefHeight="200.0" prefWidth="200.0">
       <children>
         <Circle fill="#00ff2983" layoutX="-150.0" layoutY="146.0" radius="216.0" stroke="BLACK" strokeType="INSIDE" />
         <Circle fill="#1e90ff81" layoutX="139.0" layoutY="147.0" radius="208.0" stroke="BLACK" strokeType="INSIDE" />
-        <TextField fx:id="textField" layoutX="-69.0" layoutY="-171.0" prefWidth="200.0" />
+        <TextField fx:id="textField" layoutX="-69.0" layoutY="-171.0" prefWidth="200.0" text="Write you words here" />
         <Button fx:id="button" layoutX="131.0" layoutY="-172.0" mnemonicParsing="false" onAction="#buttonClicked" text="Create" />
         <Label fx:id="label" layoutX="-299.0" layoutY="-127.0" text="" />
       </children>
