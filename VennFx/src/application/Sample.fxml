@@ -12,11 +12,20 @@
   <center>
     <Pane prefHeight="200.0" prefWidth="200.0">
       <children>
+<<<<<<< HEAD
         <Circle fill="#00ff2983" layoutX="-150.0" layoutY="146.0" radius="216.0" stroke="BLACK" strokeType="INSIDE" />
         <Circle fill="#1e90ff81" layoutX="139.0" layoutY="147.0" radius="208.0" stroke="BLACK" strokeType="INSIDE" />
         <TextField fx:id="textField" layoutX="-69.0" layoutY="-171.0" prefWidth="200.0" text="Write you words here" />
+=======
+        <Circle fx:id="circleLeft" fill="WHITE" layoutX="-150.0" layoutY="146.0" radius="216.0" stroke="BLACK" strokeType="INSIDE" />
+        <Circle fx:id="circleRight" fill="#ffffff99" layoutX="139.0" layoutY="147.0" opacity="1.0" radius="208.0" stroke="BLACK" strokeType="INSIDE" />
+        <TextField fx:id="textField" layoutX="-69.0" layoutY="-171.0" prefWidth="200.0" />
+>>>>>>> branch 'master' of https://github.com/gagarao-melvin-216469637/Venn.git
         <Button fx:id="button" layoutX="131.0" layoutY="-172.0" mnemonicParsing="false" onAction="#buttonClicked" text="Create" />
         <Label fx:id="label" layoutX="-299.0" layoutY="-127.0" text="" />
+        <Button fx:id="file" layoutX="-387.0" layoutY="-173.0" mnemonicParsing="false" onAction="#fileButtonClicked" text="Upload a word file" />
+        <ColorPicker fx:id="colorLeft" layoutX="-313.0" layoutY="-94.0" onAction="#colorLeftClicked" />
+        <ColorPicker fx:id="colorRight" layoutX="213.0" layoutY="-94.0" onAction="#colorRightClicked" />
       </children>
     </Pane>
   </center>
