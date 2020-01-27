@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.*?>
+
+<BorderPane prefHeight="691.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+  <!-- TODO Add Nodes -->
+  <center>
+    <Pane prefHeight="200.0" prefWidth="200.0">
+      <children>
+        <Circle fill="#00ff2983" layoutX="-150.0" layoutY="146.0" radius="216.0" stroke="BLACK" strokeType="INSIDE" />
+        <Circle fill="#1e90ff81" layoutX="139.0" layoutY="147.0" radius="208.0" stroke="BLACK" strokeType="INSIDE" />
+        <TextField fx:id="textField" layoutX="-69.0" layoutY="-171.0" prefWidth="200.0" text="Write you words here" />
+        <Button fx:id="button" layoutX="131.0" layoutY="-172.0" mnemonicParsing="false" onAction="#buttonClicked" text="Create" />
+        <Label fx:id="label" layoutX="-299.0" layoutY="-127.0" text="" />
+      </children>
+    </Pane>
+  </center>
+  <padding>
+    <Insets bottom="200.0" left="400.0" right="200.0" top="200.0" />
+  </padding>
+</BorderPane>
