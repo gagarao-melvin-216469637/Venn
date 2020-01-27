@@ -1,10 +1,12 @@
 package application;
 
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,6 +29,8 @@ public class SampleController {
 	private Circle circleLeft;
 	@FXML
 	private Circle circleRight;
+	private double dragStartX;
+	private double dragStartY;
 	@FXML 
 	public void buttonClicked() {
 		information = textField.getText();
@@ -48,5 +52,16 @@ public class SampleController {
 	public void colorRightClicked() {
 		this.circleRight.setFill(colorRight.getValue());
 		this.circleRight.setOpacity(0.60);
+	}
+	@FXML
+	public void labelOnClick(MouseEvent e) {
+		this.dragStartX = e.getX();
+		this.dragStartY = e.getY();
+	}
+	@FXML
+	public void labelOnDrag(MouseEvent e) {
+			label.setTranslateX(e.getX()-this.dragStartX);
+			label.setTranslateY(e.getY()-this.dragStartY);
+			label.setCursor(Cursor.MOVE);
 	}
 }
