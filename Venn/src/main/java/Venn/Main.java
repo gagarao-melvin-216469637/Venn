@@ -12,6 +12,7 @@ public class Main {
 		
 		int a = 2;
 		a = 5;
+		a = 8;
 
 
 		System.out.println("Edit 3 in Lab #2.1 ");
