@@ -60,8 +60,11 @@ public class SampleController {
 	}
 	@FXML
 	public void labelOnDrag(MouseEvent e) {
-			label.setTranslateX(e.getX()-this.dragStartX);
-			label.setTranslateY(e.getY()-this.dragStartY);
+		if(e.isDragDetect()) {
+			
+			label.setTranslateX(label.getTranslateX()+e.getX()-this.dragStartX);
+			label.setTranslateY(label.getTranslateY()+e.getY()-this.dragStartY);
 			label.setCursor(Cursor.MOVE);
+		}
 	}
 }
