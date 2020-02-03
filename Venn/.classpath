@@ -18,6 +18,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="lib" path="C:/Program Files/processing-3.5.4/processing-3.5.4/core/library/core.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files/processing-3.5.4/processing-3.5.4/core/library/core.jar"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>
