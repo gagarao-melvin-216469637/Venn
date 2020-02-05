@@ -20,6 +20,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class SampleController {
+	
 	@FXML
 	private Button button;
 	@FXML
@@ -50,7 +51,6 @@ public class SampleController {
 		information = textField.getText();
 		label1.setText(information);
 	}
-
 	@FXML
 	public void fileButtonClicked() {
 		FileChooser filechooser = new FileChooser();
