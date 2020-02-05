@@ -13,6 +13,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
@@ -21,6 +22,8 @@ import javafx.stage.Stage;
 public class SampleController {
 	@FXML
 	private Button button;
+	@FXML
+	private Pane pane;
 	@FXML
 	private ColorPicker colorLeft;
 	@FXML
@@ -41,8 +44,11 @@ public class SampleController {
 
 	@FXML
 	public void buttonClicked() {
+		Label label1 = new Label();
+		pane.getChildren().add(label1);
+		this.dragNode(label1);
 		information = textField.getText();
-		label.setText(information);
+		label1.setText(information);
 	}
 
 	@FXML
@@ -75,8 +81,6 @@ public class SampleController {
 		event.consume();
 	}
 
-
-	
 	@FXML
 	public void DragOverCircleLeft(DragEvent event) {
 		/* data is dragged over the target */
@@ -116,19 +120,63 @@ public class SampleController {
 		dragDeltaY = label.getLayoutY() - event.getSceneY();
 		label.setCursor(Cursor.MOVE);
 	}
+
 	@FXML
 	public void labelMouseReleased(MouseEvent event) {
 		label.getScene().setCursor(Cursor.HAND);
 	}
+
 	@FXML
 	public void labelMouseDragged(MouseEvent event) {
 		label.setLayoutX(event.getSceneX() + dragDeltaX);
-	    label.setLayoutY(event.getSceneY() + dragDeltaY);
+		label.setLayoutY(event.getSceneY() + dragDeltaY);
 	}
+
 	@FXML
 	public void labelMouseEntered(MouseEvent event) {
 		if (!event.isPrimaryButtonDown()) {
-		      label.getScene().setCursor(Cursor.HAND);
-		    }
+			label.getScene().setCursor(Cursor.HAND);
+		}
 	}
+
+	// Method to make sure every label created is draggable
+	public void dragNode(Node node) {
+		// Custom object to hold x and y positions
+		final Delta dragDelta = new Delta();
+
+		node.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				dragDelta.x = node.getLayoutX() - mouseEvent.getSceneX();
+				dragDelta.y = node.getLayoutY() - mouseEvent.getSceneY();
+			}
+		});
+
+		node.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				node.setCursor(Cursor.HAND);
+			}
+		});
+
+		node.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				node.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
+				node.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+			}
+		});
+
+		node.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				node.setCursor(Cursor.HAND);
+			}
+		});
+
+	}
+
+	class Delta {
+		double x, y;
+	};
 }

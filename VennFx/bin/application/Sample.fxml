@@ -10,7 +10,7 @@
 <BorderPane prefHeight="691.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.SampleController">
   <!-- TODO Add Nodes -->
   <center>
-    <Pane prefHeight="200.0" prefWidth="200.0">
+    <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0">
       <children>
         <Circle fx:id="circleLeft" fill="WHITE" layoutX="-150.0" layoutY="146.0" onDragOver="#DragOverCircleLeft" radius="216.0" stroke="BLACK" strokeType="INSIDE" />
         <Circle fx:id="circleRight" fill="#ffffff99" layoutX="139.0" layoutY="147.0" opacity="1.0" radius="208.0" stroke="BLACK" strokeType="INSIDE" />
