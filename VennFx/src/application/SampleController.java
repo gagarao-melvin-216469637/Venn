@@ -1,9 +1,16 @@
 package application;
 
+import java.io.IOException;
+
+
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -11,15 +18,47 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class SampleController {
+	@FXML
+	private BorderPane border1;
+	@FXML
+	private Pane pane1;
+	@FXML
+	private ColorPicker textColor;
+	@FXML
+	private Button cancel;
+	@FXML
+	private ColorPicker color;
+	@FXML
+	private TextField labelName;
+	@FXML
+	private Button create;
+	@FXML
+	private Pane bottom;
+	@FXML
+	private Text delete;
 	@FXML
 	private Button button;
 	@FXML
@@ -28,6 +67,8 @@ public class SampleController {
 	private ColorPicker colorLeft;
 	@FXML
 	private ColorPicker colorRight;
+	@FXML
+	private Button newCircle;
 	private String information;
 	@FXML
 	private TextField textField;
@@ -41,15 +82,29 @@ public class SampleController {
 	private Circle circleRight;
 	private double dragDeltaX;
 	private double dragDeltaY;
-
+	@FXML
+	private Button resize;
+	@FXML
+	private Rectangle rec;
+	private static Pane PANE;
+	private Stage popUp;
 	@FXML
 	public void buttonClicked() {
 		Label label1 = new Label();
 		pane.getChildren().add(label1);
 		this.dragNode(label1);
+		this.deletable(label1);
 		information = textField.getText();
+		label1.setBackground(new Background(new BackgroundFill(textColor.getValue(),new CornerRadii(5),Insets.EMPTY)));
 		label1.setText(information);
 	}
+	@FXML
+	public void circleResize() {
+		DragResizeMod.makeResizable(circleLeft,null);
+		dragNode(circleLeft);
+		dragNode(circleRight);
+	}
+
 
 	@FXML
 	public void fileButtonClicked() {
@@ -80,7 +135,35 @@ public class SampleController {
 		db.setContent(content);
 		event.consume();
 	}
+	@FXML
+	public void createNewCircle() {
+		AnchorPane root1;
+		PANE = pane;
+		try {
+			root1 = (AnchorPane)FXMLLoader.load(getClass().getResource("NewCircle.fxml"));
+			Scene scene1 = new Scene(root1,600,400);
+			popUp = new Stage();
+			popUp.initModality(Modality.APPLICATION_MODAL);
+			popUp.setScene(scene1);
+			popUp.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@FXML
+	public void addCircle() {
+		Circle addCircle = new Circle(0,0,100);
 
+		Stage popUpWindow = (Stage) create.getScene().getWindow();
+		popUpWindow.close();
+		addCircle.setFill(color.getValue());
+		addCircle.setStroke(Color.BLACK);
+		addCircle.setOpacity(0.6);
+		dragNode(addCircle);
+		PANE.getChildren().add(addCircle);
+	}
 	@FXML
 	public void DragOverCircleLeft(DragEvent event) {
 		/* data is dragged over the target */
@@ -131,12 +214,23 @@ public class SampleController {
 		label.setLayoutX(event.getSceneX() + dragDeltaX);
 		label.setLayoutY(event.getSceneY() + dragDeltaY);
 	}
+	
 
 	@FXML
 	public void labelMouseEntered(MouseEvent event) {
 		if (!event.isPrimaryButtonDown()) {
 			label.getScene().setCursor(Cursor.HAND);
 		}
+	}
+	public void deletable(Node node) {
+		node.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				if(event.getCode().equals(KeyCode.DELETE)) {
+					pane.getChildren().remove(node);
+				}
+			}
+		});
 	}
 
 	// Method to make sure every label created is draggable

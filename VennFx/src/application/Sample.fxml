@@ -6,11 +6,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="691.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.SampleController">
+<BorderPane fx:id="border1" prefHeight="691.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.SampleController">
   <!-- TODO Add Nodes -->
   <center>
-    <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0">
+    <Pane fx:id="pane" prefHeight="491.0" prefWidth="275.0">
       <children>
         <TextField fx:id="textField" layoutX="-69.0" layoutY="-171.0" prefWidth="200.0" text="Write you words here" />
         <Circle fx:id="circleLeft" fill="WHITE" layoutX="-150.0" layoutY="146.0" onDragOver="#DragOverCircleLeft" radius="216.0" stroke="BLACK" strokeType="INSIDE" />
@@ -20,6 +21,15 @@
         <Button fx:id="file" layoutX="-387.0" layoutY="-173.0" mnemonicParsing="false" onAction="#fileButtonClicked" text="Upload a word file" />
         <ColorPicker fx:id="colorLeft" layoutX="-313.0" layoutY="-94.0" onAction="#colorLeftClicked" />
         <ColorPicker fx:id="colorRight" layoutX="213.0" layoutY="-94.0" onAction="#colorRightClicked" />
+        <ColorPicker fx:id="textColor" layoutX="227.0" layoutY="-170.0" prefWidth="46.0" />
+        <Pane fx:id="bottomPane" layoutX="-397.0" layoutY="46.0" prefHeight="445.0" prefWidth="872.0">
+          <children>
+            <Text fx:id="delete" layoutX="669.0" layoutY="351.0" scaleX="3.393400197592464" scaleY="4.156714083780941" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" />
+            <Button fx:id="newCircle" layoutX="78.0" layoutY="344.0" mnemonicParsing="false" onAction="#createNewCircle" text="newCircle" />
+            <Pane fx:id="pane1" layoutX="294.0" layoutY="89.0" prefHeight="200.0" prefWidth="200.0" />
+          </children>
+        </Pane>
+        <Button fx:id="resize" layoutX="-28.0" layoutY="-81.0" mnemonicParsing="false" onAction="#circleResize" text="Resize" />
       </children>
     </Pane>
   </center>
