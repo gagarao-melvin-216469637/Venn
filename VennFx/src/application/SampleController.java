@@ -100,7 +100,6 @@ public class SampleController {
 	}
 	@FXML
 	public void circleResize() {
-		DragResizeMod.makeResizable(circleLeft,null);
 		dragNode(circleLeft);
 		dragNode(circleRight);
 	}
