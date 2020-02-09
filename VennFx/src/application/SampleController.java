@@ -29,6 +29,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -37,6 +38,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class SampleController {
+	private static Paint circleColor;
 	private static Node selectedNode;
 	@FXML
 	private BorderPane border1;
@@ -261,13 +263,16 @@ public class SampleController {
 		node.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				if(node.getStroke()==Color.BLACK) {
-					node.setStroke(Color.BLUEVIOLET);
+				if(circleColor == null) {
+					circleColor=node.getFill();
+					node.setFill(Color.BLUE);
+					node.setOpacity(0.2);
 					selectedNode = node;
 				}
 				else {
-					node.setStroke(Color.BLACK);
-					
+					node.setFill(circleColor);
+					node.setOpacity(0.6);
+					circleColor = null;
 					selectedNode = null;
 				}
 				
