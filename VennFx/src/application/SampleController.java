@@ -27,20 +27,17 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 public class SampleController {
+	private static Node selectedNode;
 	@FXML
 	private BorderPane border1;
 	@FXML
@@ -91,9 +88,11 @@ public class SampleController {
 	@FXML
 	public void buttonClicked() {
 		Label label1 = new Label();
+		PANE = pane;
 		pane.getChildren().add(label1);
 		this.dragNode(label1);
 		this.deletable(label1);
+		this.delete(label1);
 		information = textField.getText();
 		label1.setBackground(new Background(new BackgroundFill(textColor.getValue(),new CornerRadii(5),Insets.EMPTY)));
 		label1.setText(information);
@@ -161,6 +160,7 @@ public class SampleController {
 		addCircle.setStroke(Color.BLACK);
 		addCircle.setOpacity(0.6);
 		dragNode(addCircle);
+		deleteCircle(addCircle);
 		PANE.getChildren().add(addCircle);
 	}
 	@FXML
@@ -227,6 +227,60 @@ public class SampleController {
 			public void handle(KeyEvent event) {
 				if(event.getCode().equals(KeyCode.DELETE)) {
 					pane.getChildren().remove(node);
+				}
+			}
+		});
+	}
+	public void delete(Node node) {
+		node.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if(node.getOpacity()==0.5) {
+					node.setOpacity(1);
+					selectedNode = null;
+				}
+				else {
+					node.setOpacity(0.5);
+					selectedNode = node;
+				}
+				
+				
+			}
+		});
+		PANE.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent keyEvent) {
+				System.out.println("Detected");
+
+					if(keyEvent.getCode().equals(KeyCode.DELETE)){
+						PANE.getChildren().remove(selectedNode);
+				}
+			}
+		});
+	}
+	public void deleteCircle(Circle node) {
+		node.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if(node.getStroke()==Color.BLACK) {
+					node.setStroke(Color.BLUEVIOLET);
+					selectedNode = node;
+				}
+				else {
+					node.setStroke(Color.BLACK);
+					
+					selectedNode = null;
+				}
+				
+				
+			}
+		});
+
+		PANE.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent keyEvent) {
+				System.out.println("Detected");
+
+					if(keyEvent.getCode().equals(KeyCode.DELETE)){
+						PANE.getChildren().remove(selectedNode);
 				}
 			}
 		});
