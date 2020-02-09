@@ -251,7 +251,6 @@ public class SampleController {
 		});
 		PANE.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent keyEvent) {
-				System.out.println("Detected");
 
 					if(keyEvent.getCode().equals(KeyCode.DELETE)){
 						PANE.getChildren().remove(selectedNode);
@@ -282,7 +281,6 @@ public class SampleController {
 
 		PANE.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent keyEvent) {
-				System.out.println("Detected");
 
 					if(keyEvent.getCode().equals(KeyCode.DELETE)){
 						PANE.getChildren().remove(selectedNode);
