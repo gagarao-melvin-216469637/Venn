@@ -22,7 +22,7 @@ public class SketchTester extends PApplet{
 	// This is continuous loop that runs until terminated
 	public void draw() {
 		
-		background(254);
+		background(255);
 		//noStroke();
 		boolean mouseIn = false;
 		
