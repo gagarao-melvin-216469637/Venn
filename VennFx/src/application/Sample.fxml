@@ -29,7 +29,7 @@
             <Button fx:id="resize" layoutX="695.0" layoutY="344.0" mnemonicParsing="false" onAction="#circleResize" text="Resize" />
           </children>
         </Pane>
-        <TextField fx:id="leftTitle" focusTraversable="false" layoutX="-258.0" layoutY="-83.0" onAction="#textFieldClicked" prefWidth="200.0" text="Enter Title Here..." />
+        <TextField fx:id="leftTitle" depthTest="DISABLE" focusTraversable="false" layoutX="-258.0" layoutY="-83.0" onAction="#textFieldClicked" prefWidth="200.0" text="Enter Title Here..." />
       </children>
     </Pane>
   </center>
