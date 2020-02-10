@@ -6,6 +6,7 @@ public class Main {
 		//Hope you're having a great day
 		System.out.println("Lab 3");
 		int a = 5;
+		int b = 2;
 	}
 
 }
