@@ -43,7 +43,6 @@ public class SketchTester extends PApplet{
 	
 	// Mouse and Keyboard Listeners
 	public void mousePressed() {
-		exit();
 	}
 	
 	public void keyPressed() {
