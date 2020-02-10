@@ -15,6 +15,29 @@ public class TextBox {
 		this.letters = letters;
 		this.fontSize = fontSize;
 	}
-	
+
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	public String getLetters() {
+		return letters;
+	}
+
+	public void setLetters(String letters) {
+		this.letters = letters;
+	}
 	
 }
