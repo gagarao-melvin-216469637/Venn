@@ -15,7 +15,7 @@ public class SketchTester extends PApplet{
 
 	// This is run once at the start of the program
 	public void settings() {
-		size(900, 500);
+		size(900, 600);
 		shapes.add(new Ellipse(this, ellipseTemp, width/2, height/2, 50, 50));
 	}
 	
