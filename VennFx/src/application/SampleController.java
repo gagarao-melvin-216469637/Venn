@@ -40,6 +40,7 @@ import javafx.stage.Stage;
 public class SampleController {
 	private static Paint circleColor;
 	private static Node selectedNode;
+	private static TextField selectedText;
 	@FXML
 	private BorderPane border1;
 	@FXML
@@ -52,6 +53,8 @@ public class SampleController {
 	private ColorPicker color;
 	@FXML
 	private TextField labelName;
+	@FXML
+	private TextField leftTitle;
 	@FXML
 	private Button create;
 	@FXML
@@ -93,7 +96,6 @@ public class SampleController {
 		PANE = pane;
 		pane.getChildren().add(label1);
 		this.dragNode(label1);
-		this.deletable(label1);
 		this.delete(label1);
 		information = textField.getText();
 		label1.setBackground(new Background(new BackgroundFill(textColor.getValue(),new CornerRadii(5),Insets.EMPTY)));
@@ -135,6 +137,12 @@ public class SampleController {
 		db.setContent(content);
 		event.consume();
 	}
+	@FXML
+	public void textFieldClicked() {
+		PANE = pane;
+		textBoxOnEnter(leftTitle);
+	}
+	
 	@FXML
 	public void createNewCircle() {
 		AnchorPane root1;
@@ -223,32 +231,39 @@ public class SampleController {
 			label.getScene().setCursor(Cursor.HAND);
 		}
 	}
-	public void deletable(Node node) {
-		node.setOnKeyPressed(new EventHandler<KeyEvent>() {
+	public void textBoxOnEnter(TextField text) {
+		
+		text.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			@Override
-			public void handle(KeyEvent event) {
-				if(event.getCode().equals(KeyCode.DELETE)) {
-					pane.getChildren().remove(node);
+			public void handle(KeyEvent keyEvent) {
+				if(keyEvent.getCode()==KeyCode.ENTER) {
+					
+					PANE.requestFocus();
 				}
 			}
 		});
 	}
 	public void delete(Node node) {
+		
 		node.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				if(node.getOpacity()==0.5) {
+				
+				if(node.getOpacity()==0.5&&node==selectedNode) {
 					node.setOpacity(1);
+					
 					selectedNode = null;
 				}
 				else {
 					node.setOpacity(0.5);
+					
 					selectedNode = node;
 				}
 				
 				
 			}
 		});
+		
 		PANE.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent keyEvent) {
 
