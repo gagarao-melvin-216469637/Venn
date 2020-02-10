@@ -7,6 +7,7 @@ public class Main {
 		System.out.println("Lab 3");
 		int a = 5;
 		int b = 2;
+		int c = 0;
 	}
 
 }
