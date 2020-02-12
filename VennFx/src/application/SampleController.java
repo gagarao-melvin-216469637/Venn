@@ -1,8 +1,14 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
 
+import com.sun.javafx.logging.Logger;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,10 +17,12 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -40,15 +48,19 @@ import javafx.stage.Stage;
 public class SampleController {
 	private static Paint circleColor;
 	private static Node selectedNode;
-	private static TextField selectedText;
+	private static Circle LEFT;
+	private static Circle RIGHT;
 	@FXML
 	private BorderPane border1;
+	private static Scene PrimeScene;
 	@FXML
 	private Pane pane1;
 	@FXML
 	private ColorPicker textColor;
 	@FXML
 	private Button cancel;
+	@FXML
+	private Button screenshot;
 	@FXML
 	private ColorPicker color;
 	@FXML
@@ -90,11 +102,14 @@ public class SampleController {
 	private Rectangle rec;
 	private static Pane PANE;
 	private Stage popUp;
+	
+	
 	@FXML
 	public void buttonClicked() {
 		Label label1 = new Label();
 		PANE = pane;
 		pane.getChildren().add(label1);
+		
 		this.dragNode(label1);
 		this.delete(label1);
 		information = textField.getText();
@@ -166,12 +181,18 @@ public class SampleController {
 
 		Stage popUpWindow = (Stage) create.getScene().getWindow();
 		popUpWindow.close();
+		Label addLabel = new Label();
+		addLabel.setText(labelName.getText());
+		
 		addCircle.setFill(color.getValue());
 		addCircle.setStroke(Color.BLACK);
 		addCircle.setOpacity(0.6);
+		delete(addLabel);
 		dragNode(addCircle);
 		deleteCircle(addCircle);
-		PANE.getChildren().add(addCircle);
+		PANE.getChildren().addAll(addCircle,addLabel);
+		addLabel.setLabelFor(addCircle);
+		dragNode(addLabel);
 	}
 	@FXML
 	public void DragOverCircleLeft(DragEvent event) {
@@ -231,6 +252,24 @@ public class SampleController {
 			label.getScene().setCursor(Cursor.HAND);
 		}
 	}
+	@FXML
+	public void saveAsPng() {
+	    WritableImage image = new WritableImage((int)screenshot.getScene().getWidth(), (int)screenshot.getScene().getHeight());
+	    screenshot.getScene().snapshot(image);
+	    FileChooser fileChooser = new FileChooser();
+	    
+	    File newFile = fileChooser.showSaveDialog(new Stage());
+	   
+	    		
+	    // TODO: probably use a file chooser here
+	    try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", newFile);
+            System.out.println("snapshot saved: " + newFile.getAbsolutePath());
+        } catch (IOException ex) {
+            
+        }
+    }
+     
 	public void textBoxOnEnter(TextField text) {
 		
 		text.setOnKeyReleased(new EventHandler<KeyEvent>() {

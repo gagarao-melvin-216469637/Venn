@@ -27,6 +27,7 @@
             <Button fx:id="newCircle" layoutX="78.0" layoutY="344.0" mnemonicParsing="false" onAction="#createNewCircle" text="New Circle" />
             <Pane fx:id="pane1" layoutX="294.0" layoutY="89.0" prefHeight="200.0" prefWidth="200.0" />
             <Button fx:id="resize" layoutX="695.0" layoutY="344.0" mnemonicParsing="false" onAction="#circleResize" text="Resize" />
+            <Button fx:id="screenshot" layoutX="394.0" layoutY="344.0" mnemonicParsing="false" onAction="#saveAsPng" text="Take a Screen Shot" />
           </children>
         </Pane>
         <TextField fx:id="leftTitle" depthTest="DISABLE" focusTraversable="false" layoutX="-258.0" layoutY="-83.0" onAction="#textFieldClicked" prefWidth="200.0" text="Enter Title Here..." />
