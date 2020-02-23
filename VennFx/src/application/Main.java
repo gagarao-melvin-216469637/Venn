@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -18,10 +19,11 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			primaryStage.getIcons().add(new Image("icon.png"));
 			Pane root = (Pane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
 
 			
-			Scene scene = new Scene(root,800,800);
+			Scene scene = new Scene(root,900,800);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 			primaryStage.setScene(scene);
