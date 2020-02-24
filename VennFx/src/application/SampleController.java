@@ -21,6 +21,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
@@ -61,8 +62,6 @@ public class SampleController {
 	@FXML
 	private Button cancel;
 	@FXML
-	private Button screenshot;
-	@FXML
 	private TextField labelName;
 	@FXML
 	private Pane bottom;
@@ -85,6 +84,8 @@ public class SampleController {
 	private Label label;
 	@FXML
 	private Button file;
+	@FXML
+	private MenuItem screenshot;
 	@FXML
 	private Circle circleLeft;
 	@FXML
@@ -261,9 +262,9 @@ public class SampleController {
 
 	@FXML
 	public void saveAsPng() {
-		WritableImage image = new WritableImage((int) screenshot.getScene().getWidth(),
-				(int) screenshot.getScene().getHeight());
-		screenshot.getScene().snapshot(image);
+		WritableImage image = new WritableImage((int) PANE.getScene().getWidth(),
+				(int) PANE.getScene().getHeight());
+		PANE.getScene().snapshot(image);
 		FileChooser fileChooser = new FileChooser();
 
 		File newFile = fileChooser.showSaveDialog(new Stage());
