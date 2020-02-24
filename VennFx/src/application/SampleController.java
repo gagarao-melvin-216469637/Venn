@@ -107,13 +107,11 @@ public class SampleController {
 	private Circle circle;
 	@FXML
 	private Button create;
-	@FXML
-	public void initialize() {
-		PANE = pane;
-	}
+	
 	@FXML
 	public void buttonClicked() {
 		Label label1 = new Label();
+		PANE = pane;
 		pane.getChildren().add(label1);
 
 		this.dragNode(label1);
@@ -264,9 +262,10 @@ public class SampleController {
 
 	@FXML
 	public void saveAsPng() {
-		WritableImage image = new WritableImage((int) PANE.getScene().getWidth(),
-				(int) PANE.getScene().getHeight());
-		PANE.getScene().snapshot(image);
+		
+		WritableImage image = new WritableImage((int) pane.getScene().getWidth(),
+				(int) pane.getScene().getHeight());
+		pane.getScene().snapshot(image);
 		FileChooser fileChooser = new FileChooser();
 
 		File newFile = fileChooser.showSaveDialog(new Stage());
@@ -276,7 +275,7 @@ public class SampleController {
 			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", newFile);
 			// System.out.println("snapshot saved: " + newFile.getAbsolutePath());
 		} catch (IOException ex) {
-
+			System.out.println("Nothing selected!");
 		}
 	}
 
