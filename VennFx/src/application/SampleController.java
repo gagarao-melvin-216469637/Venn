@@ -109,6 +109,9 @@ public class SampleController {
 	private Button create;
 	
 	@FXML
+	private ColorPicker textBackground;
+	
+	@FXML
 	public void buttonClicked() {
 		Label label1 = new Label();
 		PANE = pane;
@@ -118,6 +121,7 @@ public class SampleController {
 		this.delete(label1);
 		information = textField.getText();
 		label1.setTextFill(textColor.getValue());
+		label1.setBackground(new Background(new BackgroundFill(textBackground.getValue(),new CornerRadii(5),Insets.EMPTY)));
 		label1.setText(information);
 	}
 
