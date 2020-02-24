@@ -327,12 +327,12 @@ public class SampleController {
 			public void handle(MouseEvent mouseEvent) {
 				if (circleColor == null) {
 					circleColor = node.getFill();
-					node.setFill(Color.BLUE);
+					//node.setFill(Color.BLUE);
 					node.setOpacity(0.2);
 					selectedNode = node;
 				} else {
 					node.setFill(circleColor);
-					node.setOpacity(0.6);
+					node.setOpacity(1.0);
 					circleColor = null;
 					selectedNode = null;
 				}
