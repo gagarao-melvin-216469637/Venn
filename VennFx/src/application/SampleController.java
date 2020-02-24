@@ -21,6 +21,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.ClipboardContent;
@@ -62,19 +63,13 @@ public class SampleController {
 	@FXML
 	private Button screenshot;
 	@FXML
-	private ColorPicker color;
-	@FXML
 	private TextField labelName;
-	@FXML
-	private TextField leftTitle;
-	@FXML
-	private Button create;
 	@FXML
 	private Pane bottom;
 	@FXML
 	private Text delete;
 	@FXML
-	private Button button;
+	private Button insert;
 	@FXML
 	private Pane pane;
 	@FXML
@@ -103,25 +98,33 @@ public class SampleController {
 	private static Pane PANE;
 	private Stage popUp;
 	
-	
+	@FXML
+	private ColorPicker color;
+	@FXML
+	private Slider slider;
+	@FXML
+	private Circle circle;
+	@FXML
+	private Button create;
+
 	@FXML
 	public void buttonClicked() {
 		Label label1 = new Label();
 		PANE = pane;
 		pane.getChildren().add(label1);
-		
+
 		this.dragNode(label1);
 		this.delete(label1);
 		information = textField.getText();
-		label1.setBackground(new Background(new BackgroundFill(textColor.getValue(),new CornerRadii(5),Insets.EMPTY)));
+		label1.setTextFill(textColor.getValue());
 		label1.setText(information);
 	}
+
 	@FXML
 	public void circleResize() {
 		dragNode(circleLeft);
 		dragNode(circleRight);
 	}
-
 
 	@FXML
 	public void fileButtonClicked() {
@@ -152,19 +155,14 @@ public class SampleController {
 		db.setContent(content);
 		event.consume();
 	}
-	@FXML
-	public void textFieldClicked() {
-		PANE = pane;
-		textBoxOnEnter(leftTitle);
-	}
-	
+
 	@FXML
 	public void createNewCircle() {
 		AnchorPane root1;
 		PANE = pane;
 		try {
-			root1 = (AnchorPane)FXMLLoader.load(getClass().getResource("NewCircle.fxml"));
-			Scene scene1 = new Scene(root1,600,400);
+			root1 = (AnchorPane) FXMLLoader.load(getClass().getResource("NewCircle.fxml"));
+			Scene scene1 = new Scene(root1, 600, 400);
 			popUp = new Stage();
 			popUp.initModality(Modality.APPLICATION_MODAL);
 			popUp.setScene(scene1);
@@ -173,27 +171,36 @@ public class SampleController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	@FXML
 	public void addCircle() {
-		Circle addCircle = new Circle(0,0,100);
+		Circle addCircle = new Circle(450, 400, slider.getValue());
+		addCircle.setFill(color.getValue());
 
 		Stage popUpWindow = (Stage) create.getScene().getWindow();
 		popUpWindow.close();
-		Label addLabel = new Label();
-		addLabel.setText(labelName.getText());
+
 		
-		addCircle.setFill(color.getValue());
-		addCircle.setStroke(Color.BLACK);
-		addCircle.setOpacity(0.6);
-		delete(addLabel);
+//		addCircle.setFill(color.getValue());
+//		addCircle.setStroke(Color.BLACK);
+//		addCircle.setOpacity(0.6);
 		dragNode(addCircle);
 		deleteCircle(addCircle);
-		PANE.getChildren().addAll(addCircle,addLabel);
-		addLabel.setLabelFor(addCircle);
-		dragNode(addLabel);
+		PANE.getChildren().addAll(addCircle);
 	}
+	
+	@FXML
+	public void radiusNewCircle() {
+		circle.setRadius(slider.getValue());
+	}
+	
+	@FXML
+	public void colorNewCircle() {
+		circle.setFill(color.getValue());
+	}
+
 	@FXML
 	public void DragOverCircleLeft(DragEvent event) {
 		/* data is dragged over the target */
@@ -244,7 +251,6 @@ public class SampleController {
 		label.setLayoutX(event.getSceneX() + dragDeltaX);
 		label.setLayoutY(event.getSceneY() + dragDeltaY);
 	}
-	
 
 	@FXML
 	public void labelMouseEntered(MouseEvent event) {
@@ -252,92 +258,91 @@ public class SampleController {
 			label.getScene().setCursor(Cursor.HAND);
 		}
 	}
+
 	@FXML
 	public void saveAsPng() {
-	    WritableImage image = new WritableImage((int)screenshot.getScene().getWidth(), (int)screenshot.getScene().getHeight());
-	    screenshot.getScene().snapshot(image);
-	    FileChooser fileChooser = new FileChooser();
-	    
-	    File newFile = fileChooser.showSaveDialog(new Stage());
-	   
-	    		
-	    // TODO: probably use a file chooser here
-	    try {
-            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", newFile);
-            System.out.println("snapshot saved: " + newFile.getAbsolutePath());
-        } catch (IOException ex) {
-            
-        }
-    }
-     
+		WritableImage image = new WritableImage((int) screenshot.getScene().getWidth(),
+				(int) screenshot.getScene().getHeight());
+		screenshot.getScene().snapshot(image);
+		FileChooser fileChooser = new FileChooser();
+
+		File newFile = fileChooser.showSaveDialog(new Stage());
+
+		// TODO: probably use a file chooser here
+		try {
+			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", newFile);
+			// System.out.println("snapshot saved: " + newFile.getAbsolutePath());
+		} catch (IOException ex) {
+
+		}
+	}
+
 	public void textBoxOnEnter(TextField text) {
-		
+
 		text.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
-				if(keyEvent.getCode()==KeyCode.ENTER) {
-					
+				if (keyEvent.getCode() == KeyCode.ENTER) {
+
 					PANE.requestFocus();
 				}
 			}
 		});
 	}
+
 	public void delete(Node node) {
-		
-		node.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+		node.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				
-				if(node.getOpacity()==0.5&&node==selectedNode) {
+
+				if (node.getOpacity() == 0.5 && node == selectedNode) {
 					node.setOpacity(1);
-					
+
 					selectedNode = null;
-				}
-				else {
+				} else {
 					node.setOpacity(0.5);
-					
+
 					selectedNode = node;
 				}
-				
-				
+
 			}
 		});
-		
+
 		PANE.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent keyEvent) {
 
-					if(keyEvent.getCode().equals(KeyCode.DELETE)){
-						PANE.getChildren().remove(selectedNode);
+				if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+					PANE.getChildren().remove(selectedNode);
 				}
 			}
 		});
 	}
+
 	public void deleteCircle(Circle node) {
-		node.setOnMouseClicked(new EventHandler<MouseEvent>(){
+		node.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				if(circleColor == null) {
-					circleColor=node.getFill();
+				if (circleColor == null) {
+					circleColor = node.getFill();
 					node.setFill(Color.BLUE);
 					node.setOpacity(0.2);
 					selectedNode = node;
-				}
-				else {
+				} else {
 					node.setFill(circleColor);
 					node.setOpacity(0.6);
 					circleColor = null;
 					selectedNode = null;
 				}
-				
-				
+
 			}
 		});
 
 		PANE.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent keyEvent) {
 
-					if(keyEvent.getCode().equals(KeyCode.DELETE)){
-						PANE.getChildren().remove(selectedNode);
+				if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+					PANE.getChildren().remove(selectedNode);
 				}
 			}
 		});
