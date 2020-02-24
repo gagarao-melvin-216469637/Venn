@@ -21,7 +21,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			primaryStage.getIcons().add(new Image("icon.png"));
-			primaryStage.setTitle("Venn Diagram Generator");
+			primaryStage.setTitle("Venn Diagram Creator");
 			Pane root = (Pane) FXMLLoader.load(getClass().getResource("Sample.fxml"));
 
 			Scene scene = new Scene(root, 900, 800);
