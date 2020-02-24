@@ -115,10 +115,11 @@ public class SampleController {
 	public void buttonClicked() {
 		Label label1 = new Label();
 		PANE = pane;
+		
 		pane.getChildren().add(label1);
-
 		this.dragNode(label1);
 		this.delete(label1);
+		
 		information = textField.getText();
 		label1.setTextFill(textColor.getValue());
 		label1.setBackground(new Background(new BackgroundFill(textBackground.getValue(),new CornerRadii(5),Insets.EMPTY)));
@@ -301,7 +302,8 @@ public class SampleController {
 		node.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-
+				
+				System.out.println(PANE);
 				if (node.getOpacity() == 0.5 && node == selectedNode) {
 					node.setOpacity(1);
 
@@ -310,6 +312,8 @@ public class SampleController {
 					node.setOpacity(0.5);
 
 					selectedNode = node;
+					System.out.println(selectedNode);
+					PANE.requestFocus();
 				}
 
 			}
@@ -319,6 +323,7 @@ public class SampleController {
 			public void handle(KeyEvent keyEvent) {
 
 				if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+					
 					PANE.getChildren().remove(selectedNode);
 				}
 			}
@@ -332,8 +337,9 @@ public class SampleController {
 				if (circleColor == null) {
 					circleColor = node.getFill();
 					//node.setFill(Color.BLUE);
-					node.setOpacity(0.2);
+					node.setOpacity(0.6);
 					selectedNode = node;
+					PANE.requestFocus();
 				} else {
 					node.setFill(circleColor);
 					node.setOpacity(1.0);
