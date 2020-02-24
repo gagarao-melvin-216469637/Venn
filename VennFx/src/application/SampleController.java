@@ -107,11 +107,13 @@ public class SampleController {
 	private Circle circle;
 	@FXML
 	private Button create;
-
+	@FXML
+	public void initialize() {
+		PANE = pane;
+	}
 	@FXML
 	public void buttonClicked() {
 		Label label1 = new Label();
-		PANE = pane;
 		pane.getChildren().add(label1);
 
 		this.dragNode(label1);
