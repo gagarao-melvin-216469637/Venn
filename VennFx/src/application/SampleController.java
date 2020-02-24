@@ -1,23 +1,391 @@
 package application;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
+
+import com.sun.javafx.logging.Logger;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class SampleController {
+	private static Paint circleColor;
+	private static Node selectedNode;
+	private static Circle LEFT;
+	private static Circle RIGHT;
 	@FXML
-	private Button button;
+	private BorderPane border1;
+	private static Scene PrimeScene;
+	@FXML
+	private Pane pane1;
+	@FXML
+	private ColorPicker textColor;
+	@FXML
+	private Button cancel;
+	@FXML
+	private Button screenshot;
+	@FXML
+	private TextField labelName;
+	@FXML
+	private Pane bottom;
+	@FXML
+	private Text delete;
+	@FXML
+	private Button insert;
+	@FXML
+	private Pane pane;
+	@FXML
+	private ColorPicker colorLeft;
+	@FXML
+	private ColorPicker colorRight;
+	@FXML
+	private Button newCircle;
 	private String information;
 	@FXML
 	private TextField textField;
 	@FXML
 	private Label label;
+	@FXML
+	private Button file;
+	@FXML
+	private Circle circleLeft;
+	@FXML
+	private Circle circleRight;
+	private double dragDeltaX;
+	private double dragDeltaY;
+	@FXML
+	private Button resize;
+	@FXML
+	private Rectangle rec;
+	private static Pane PANE;
+	private Stage popUp;
+	
+	@FXML
+	private ColorPicker color;
+	@FXML
+	private Slider slider;
+	@FXML
+	private Circle circle;
+	@FXML
+	private Button create;
 
-	@FXML 
+	@FXML
 	public void buttonClicked() {
+		Label label1 = new Label();
+		PANE = pane;
+		pane.getChildren().add(label1);
+
+		this.dragNode(label1);
+		this.delete(label1);
 		information = textField.getText();
-		System.out.println(information);
-		System.out.println("Button CLicked!");
+		label1.setTextFill(textColor.getValue());
+		label1.setText(information);
 	}
+
+	@FXML
+	public void circleResize() {
+		dragNode(circleLeft);
+		dragNode(circleRight);
+	}
+
+	@FXML
+	public void fileButtonClicked() {
+		FileChooser filechooser = new FileChooser();
+		filechooser.setTitle("Open source File");
+		filechooser.showOpenDialog(new Stage());
+	}
+
+	@FXML
+	public void colorLeftClicked() {
+		this.circleLeft.setFill(colorLeft.getValue());
+		this.circleLeft.setOpacity(0.60);
+	}
+
+	@FXML
+	public void colorRightClicked() {
+		this.circleRight.setFill(colorRight.getValue());
+		this.circleRight.setOpacity(0.60);
+	}
+
+	@FXML
+	public void labelOnDrag(MouseEvent event) {
+		Dragboard db = label.startDragAndDrop(TransferMode.MOVE);
+
+		/* Put a string on a dragboard */
+		ClipboardContent content = new ClipboardContent();
+		content.putString(label.getText());
+		db.setContent(content);
+		event.consume();
+	}
+
+	@FXML
+	public void createNewCircle() {
+		AnchorPane root1;
+		PANE = pane;
+		try {
+			root1 = (AnchorPane) FXMLLoader.load(getClass().getResource("NewCircle.fxml"));
+			Scene scene1 = new Scene(root1, 600, 400);
+			popUp = new Stage();
+			popUp.initModality(Modality.APPLICATION_MODAL);
+			popUp.setScene(scene1);
+			popUp.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@FXML
+	public void addCircle() {
+		Circle addCircle = new Circle(450, 400, slider.getValue());
+		addCircle.setFill(color.getValue());
+
+		Stage popUpWindow = (Stage) create.getScene().getWindow();
+		popUpWindow.close();
+
+		
+//		addCircle.setFill(color.getValue());
+//		addCircle.setStroke(Color.BLACK);
+//		addCircle.setOpacity(0.6);
+		dragNode(addCircle);
+		deleteCircle(addCircle);
+		PANE.getChildren().addAll(addCircle);
+	}
+	
+	@FXML
+	public void radiusNewCircle() {
+		circle.setRadius(slider.getValue());
+	}
+	
+	@FXML
+	public void colorNewCircle() {
+		circle.setFill(color.getValue());
+	}
+
+	@FXML
+	public void DragOverCircleLeft(DragEvent event) {
+		/* data is dragged over the target */
+		/*
+		 * accept it only if it is not dragged from the same node and if it has a string
+		 * data
+		 */
+		if (event.getGestureSource() != circleLeft && event.getDragboard().hasString()) {
+			/* allow for moving */
+			event.acceptTransferModes(TransferMode.MOVE);
+		}
+
+		event.consume();
+	}
+
+	@FXML
+	public void labelDragDropped(DragEvent event) {
+		/* data dropped */
+		/* if there is a string data on dragboard, read it and use it */
+		Dragboard db = event.getDragboard();
+		boolean success = false;
+		if (db.hasString()) {
+			label.setText(db.getString());
+			success = true;
+		}
+		/*
+		 * let the source know whether the string was successfully transferred and used
+		 */
+		event.setDropCompleted(success);
+
+		event.consume();
+	}
+
+	@FXML
+	public void labelMousePressed(MouseEvent event) {
+		dragDeltaX = label.getLayoutX() - event.getSceneX();
+		dragDeltaY = label.getLayoutY() - event.getSceneY();
+		label.setCursor(Cursor.MOVE);
+	}
+
+	@FXML
+	public void labelMouseReleased(MouseEvent event) {
+		label.getScene().setCursor(Cursor.HAND);
+	}
+
+	@FXML
+	public void labelMouseDragged(MouseEvent event) {
+		label.setLayoutX(event.getSceneX() + dragDeltaX);
+		label.setLayoutY(event.getSceneY() + dragDeltaY);
+	}
+
+	@FXML
+	public void labelMouseEntered(MouseEvent event) {
+		if (!event.isPrimaryButtonDown()) {
+			label.getScene().setCursor(Cursor.HAND);
+		}
+	}
+
+	@FXML
+	public void saveAsPng() {
+		WritableImage image = new WritableImage((int) screenshot.getScene().getWidth(),
+				(int) screenshot.getScene().getHeight());
+		screenshot.getScene().snapshot(image);
+		FileChooser fileChooser = new FileChooser();
+
+		File newFile = fileChooser.showSaveDialog(new Stage());
+
+		// TODO: probably use a file chooser here
+		try {
+			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", newFile);
+			// System.out.println("snapshot saved: " + newFile.getAbsolutePath());
+		} catch (IOException ex) {
+
+		}
+	}
+
+	public void textBoxOnEnter(TextField text) {
+
+		text.setOnKeyReleased(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				if (keyEvent.getCode() == KeyCode.ENTER) {
+
+					PANE.requestFocus();
+				}
+			}
+		});
+	}
+
+	public void delete(Node node) {
+
+		node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+
+				if (node.getOpacity() == 0.5 && node == selectedNode) {
+					node.setOpacity(1);
+
+					selectedNode = null;
+				} else {
+					node.setOpacity(0.5);
+
+					selectedNode = node;
+				}
+
+			}
+		});
+
+		PANE.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent keyEvent) {
+
+				if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+					PANE.getChildren().remove(selectedNode);
+				}
+			}
+		});
+	}
+
+	public void deleteCircle(Circle node) {
+		node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if (circleColor == null) {
+					circleColor = node.getFill();
+					node.setFill(Color.BLUE);
+					node.setOpacity(0.2);
+					selectedNode = node;
+				} else {
+					node.setFill(circleColor);
+					node.setOpacity(0.6);
+					circleColor = null;
+					selectedNode = null;
+				}
+
+			}
+		});
+
+		PANE.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent keyEvent) {
+
+				if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+					PANE.getChildren().remove(selectedNode);
+				}
+			}
+		});
+	}
+
+	// Method to make sure every label created is draggable
+	public void dragNode(Node node) {
+		// Custom object to hold x and y positions
+		final Delta dragDelta = new Delta();
+
+		node.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				dragDelta.x = node.getLayoutX() - mouseEvent.getSceneX();
+				dragDelta.y = node.getLayoutY() - mouseEvent.getSceneY();
+			}
+		});
+
+		node.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				node.setCursor(Cursor.HAND);
+			}
+		});
+
+		node.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				node.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
+				node.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+			}
+		});
+
+		node.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				node.setCursor(Cursor.HAND);
+			}
+		});
+
+	}
+
+	class Delta {
+		double x, y;
+	};
 }
