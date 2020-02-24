@@ -15,7 +15,7 @@
     <Label contentDisplay="CENTER" layoutX="31.0" layoutY="63.0" text="Create a new circle" textAlignment="CENTER" />
       <VBox layoutX="31.0" layoutY="100.0" prefWidth="100.0" spacing="10.0">
          <children>
-          <ColorPicker fx:id="color" editable="true" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+          <ColorPicker fx:id="color" editable="true" onAction="#colorNewCircle" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
     	  	<value>
       			<Color blue="0.882" green="0.509" red="0.196" />
   		    </value>
