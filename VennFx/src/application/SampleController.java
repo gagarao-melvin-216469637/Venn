@@ -121,6 +121,19 @@ public class SampleController {
 		this.delete(label1);
 		
 		information = textField.getText();
+//		if(information.length()>11) {
+//			char[] informationA = information.toCharArray();
+//			information="";
+//			for(int i=0; i<informationA.length;i++) {
+//				information+=informationA[i];
+//				if(i%11==0&&i>=11) {
+//					information+="\n";
+//				}
+//			}
+//		}
+		label1.setMaxWidth(50);
+		label1.setWrapText(true);
+		label1.setMaxHeight(Double.POSITIVE_INFINITY);
 		label1.setTextFill(textColor.getValue());
 		label1.setBackground(new Background(new BackgroundFill(textBackground.getValue(),new CornerRadii(5),Insets.EMPTY)));
 		label1.setText(information);
@@ -184,7 +197,8 @@ public class SampleController {
 	public void addCircle() {
 		Circle addCircle = new Circle(450, 400, slider.getValue());
 		addCircle.setFill(color.getValue());
-
+		addCircle.setOpacity(0.8);
+		addCircle.setStroke(Color.BLACK);
 		Stage popUpWindow = (Stage) create.getScene().getWindow();
 		popUpWindow.close();
 
@@ -205,6 +219,7 @@ public class SampleController {
 	@FXML
 	public void colorNewCircle() {
 		circle.setFill(color.getValue());
+		circle.setOpacity(0.8);
 	}
 
 	@FXML
@@ -303,7 +318,6 @@ public class SampleController {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
 				
-				System.out.println(PANE);
 				if (node.getOpacity() == 0.5 && node == selectedNode) {
 					node.setOpacity(1);
 
@@ -312,7 +326,6 @@ public class SampleController {
 					node.setOpacity(0.5);
 
 					selectedNode = node;
-					System.out.println(selectedNode);
 					PANE.requestFocus();
 				}
 
@@ -342,7 +355,7 @@ public class SampleController {
 					PANE.requestFocus();
 				} else {
 					node.setFill(circleColor);
-					node.setOpacity(1.0);
+					node.setOpacity(0.8);
 					circleColor = null;
 					selectedNode = null;
 				}
