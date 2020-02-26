@@ -13,6 +13,7 @@
   <!-- TODO Add Nodes -->
   <children>
     <Label contentDisplay="CENTER" layoutX="31.0" layoutY="63.0" text="Create a new circle" textAlignment="CENTER" />
+<<<<<<< HEAD
     <VBox layoutX="31.0" layoutY="100.0" prefWidth="100.0" spacing="10.0">
       <children>
         <ColorPicker fx:id="color" editable="true" onAction="#colorNewCircle">
@@ -28,6 +29,23 @@
       </children>
     </VBox>
     <Circle fx:id="circle" fill="#3582e1" layoutX="353.0" layoutY="206.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+=======
+      <VBox layoutX="31.0" layoutY="100.0" prefWidth="100.0" spacing="10.0">
+         <children>
+          <ColorPicker fx:id="color" editable="true" onAction="#colorNewCircle" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+    	  	<value>
+      			<Color blue="0.882" green="0.509" red="0.196" />
+  		    </value>
+		  </ColorPicker>
+            <Separator prefHeight="30.0" prefWidth="100.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Circle Size" textAlignment="CENTER" wrappingWidth="100.501953125" />
+            <Slider fx:id="slider" max="200.0" min="50.0" onMouseDragged="#radiusNewCircle" />
+            <Separator prefHeight="30.0" prefWidth="100.0" />
+          <Button fx:id="create" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addCircle" prefHeight="25.0" prefWidth="108.0" text="Create" />
+         </children>
+      </VBox>
+      <Circle fx:id="circle" fill="#3582e1" layoutX="353.0" layoutY="206.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+>>>>>>> branch 'master' of https://github.com/gagarao-melvin-216469637/Venn.git
   </children>
   <padding>
     <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
