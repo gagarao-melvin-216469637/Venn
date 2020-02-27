@@ -119,7 +119,7 @@ public class SampleController {
 	
 	@FXML
 	private ColorPicker textBackground;
-
+	
 	@FXML
 	public void buttonClicked() {
 		Label label1 = new Label();
@@ -187,6 +187,7 @@ public class SampleController {
 	public void createNewCircle() {
 		AnchorPane root1;
 		PANE = pane;
+		PROPERTY=propertySet;
 		try {
 			root1 = (AnchorPane) FXMLLoader.load(getClass().getResource("NewCircle.fxml"));
 			Scene scene1 = new Scene(root1, 600, 400);
@@ -207,16 +208,14 @@ public class SampleController {
 		addCircle.setFill(color.getValue());
 		addCircle.setOpacity(0.8);
 		addCircle.setStroke(Color.BLACK);
+		
 		Stage popUpWindow = (Stage) create.getScene().getWindow();
 		popUpWindow.close();
 
 		
-//		addCircle.setFill(color.getValue());
-//		addCircle.setStroke(Color.BLACK);
-//		addCircle.setOpacity(0.6);
+		PANE.getChildren().addAll(addCircle);
 		dragNode(addCircle);
 		deleteCircle(addCircle);
-		PANE.getChildren().addAll(addCircle);
 	}
 	
 	@FXML
@@ -310,6 +309,7 @@ public class SampleController {
 	}
 	
 	
+	
 	@FXML
 	public void setting(MouseEvent event) {
 		
@@ -380,22 +380,36 @@ public class SampleController {
 			}
 		});
 	}
-
+	
 	public void deleteCircle(Circle node) {
 		node.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				if (circleColor == null) {
-					circleColor = node.getFill();
+				System.out.println(PROPERTY);
+				
+				if (selectedNode != node) {
+					
 					//node.setFill(Color.BLUE);
 					node.setOpacity(0.6);
 					selectedNode = node;
 					PANE.requestFocus();
 				} else {
-					node.setFill(circleColor);
+					
 					node.setOpacity(0.8);
 					circleColor = null;
 					selectedNode = null;
+				}
+				if(PROPERTY.isVisible()) {
+					PROPERTY.setVisible(false);
+					nodeToEdit = null;
+				}
+				else {
+					nodeToEdit = node;
+					
+					PROPERTY.setLayoutX(nodeToEdit.getCenterX()+nodeToEdit.getRadius());
+					PROPERTY.setLayoutY(nodeToEdit.getCenterY()+nodeToEdit.getRadius());
+					PROPERTY.setVisible(true);
+					
 				}
 
 			}
@@ -406,6 +420,7 @@ public class SampleController {
 
 				if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 					PANE.getChildren().remove(selectedNode);
+					PROPERTY.setVisible(false);
 				}
 			}
 		});
