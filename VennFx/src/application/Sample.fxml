@@ -15,11 +15,9 @@
   <center>
     <Pane fx:id="pane" prefHeight="491.0" prefWidth="275.0">
       <children>
-        <Circle fx:id="circleLeft" fill="WHITE" layoutX="300.0" layoutY="315.0" onDragOver="#DragOverCircleLeft" onMouseClicked="#setting" radius="196.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="circleRight" fill="#ffffff99" layoutX="600.0" layoutY="315.0" opacity="1.0" radius="190.5" stroke="BLACK" strokeType="INSIDE" />
+        <Circle fx:id="circleLeft" fill="WHITE" layoutX="355.0" layoutY="310.0" onDragOver="#DragOverCircleLeft" onMouseClicked="#setting" radius="196.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+        <Circle fx:id="circleRight" fill="#ffffff99" layoutX="551.0" layoutY="304.0" onMouseClicked="#setting" opacity="1.0" radius="190.5" stroke="BLACK" strokeType="INSIDE" visible="false" />
         <Label fx:id="label" layoutX="132.0" layoutY="60.0" onDragDropped="#labelDragDropped" onMouseDragged="#labelMouseDragged" onMouseEntered="#labelMouseEntered" onMousePressed="#labelMousePressed" onMouseReleased="#labelMouseReleased" text="" />
-        <ColorPicker fx:id="colorLeft" layoutX="60.0" layoutY="125.0" onAction="#colorLeftClicked" />
-        <ColorPicker fx:id="colorRight" layoutX="778.0" layoutY="125.0" onAction="#colorRightClicked" />
         <Pane fx:id="bottomPane" layoutX="34.0" layoutY="233.0">
           <children>
             <Button fx:id="newCircle" layoutX="39.0" layoutY="239.0" mnemonicParsing="false" onAction="#createNewCircle" text="New Circle" />
@@ -48,7 +46,7 @@
             <Menu mnemonicParsing="false" text="Open">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#fileButtonClicked" text="Upload a Word File" />
-                <MenuItem mnemonicParsing="false" text="Basic Template" />
+                <MenuItem mnemonicParsing="false" onAction="#basicTemp" text="Basic Template" fx:id="basicTemp" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Save">

@@ -106,7 +106,8 @@ public class SampleController {
 	private Rectangle rec;
 	private static Pane PANE;
 	private Stage popUp;
-	
+	@FXML
+	private MenuItem basicTemp;
 	@FXML
 	private ColorPicker color;
 	@FXML
@@ -146,7 +147,13 @@ public class SampleController {
 		label1.setBackground(new Background(new BackgroundFill(textBackground.getValue(),new CornerRadii(5),Insets.EMPTY)));
 		label1.setText(information);
 	}
-
+	@FXML
+	public void basicTemp() {
+		circleLeft.setVisible(true);
+		circleRight.setVisible(true);
+		dragNode(circleLeft);
+		dragNode(circleRight);
+	}
 	@FXML
 	public void circleResize() {
 		dragNode(circleLeft);
@@ -320,8 +327,8 @@ public class SampleController {
 		else {
 			nodeToEdit = (Circle) event.getTarget();
 			
-			propertySet.setLayoutX(nodeToEdit.getCenterX()+nodeToEdit.getRadius());
-			propertySet.setLayoutY(nodeToEdit.getCenterY()+nodeToEdit.getRadius());
+			propertySet.setLayoutX(event.getSceneX());
+			propertySet.setLayoutY(event.getSceneY());
 			propertySet.setVisible(true);
 			
 		}
