@@ -38,6 +38,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -58,6 +59,12 @@ public class SampleController {
 	@FXML
 	private Pane pane1;
 	@FXML
+	private VBox propertySet;
+	@FXML
+	private Slider sizeSet;
+	@FXML
+	private ColorPicker colorSet;
+	@FXML
 	private ColorPicker textColor;
 	@FXML
 	private Button cancel;
@@ -73,6 +80,7 @@ public class SampleController {
 	private Pane pane;
 	@FXML
 	private ColorPicker colorLeft;
+	private static Circle nodeToEdit;
 	@FXML
 	private ColorPicker colorRight;
 	@FXML
@@ -107,15 +115,15 @@ public class SampleController {
 	private Circle circle;
 	@FXML
 	private Button create;
+	private static VBox PROPERTY;
 	
 	@FXML
 	private ColorPicker textBackground;
-	
+
 	@FXML
 	public void buttonClicked() {
 		Label label1 = new Label();
 		PANE = pane;
-		
 		pane.getChildren().add(label1);
 		this.dragNode(label1);
 		this.delete(label1);
@@ -236,6 +244,8 @@ public class SampleController {
 
 		event.consume();
 	}
+	
+	
 
 	@FXML
 	public void labelDragDropped(DragEvent event) {
@@ -298,7 +308,35 @@ public class SampleController {
 			System.out.println("Nothing selected!");
 		}
 	}
-
+	
+	
+	@FXML
+	public void setting(MouseEvent event) {
+		
+		if(propertySet.isVisible()) {
+			propertySet.setVisible(false);
+			nodeToEdit = null;
+		}
+		else {
+			nodeToEdit = (Circle) event.getTarget();
+			
+			propertySet.setLayoutX(nodeToEdit.getCenterX()+nodeToEdit.getRadius());
+			propertySet.setLayoutY(nodeToEdit.getCenterY()+nodeToEdit.getRadius());
+			propertySet.setVisible(true);
+			
+		}
+	}
+	@FXML
+	public void setColor() {
+		nodeToEdit.setFill(colorSet.getValue());
+		nodeToEdit.setOpacity(0.8);
+		
+	}
+	@FXML
+	public void setSize() {
+		
+		nodeToEdit.setRadius(sizeSet.getValue());
+	}
 	public void textBoxOnEnter(TextField text) {
 
 		text.setOnKeyReleased(new EventHandler<KeyEvent>() {

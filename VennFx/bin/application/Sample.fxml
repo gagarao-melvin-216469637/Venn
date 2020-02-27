@@ -15,7 +15,7 @@
   <center>
     <Pane fx:id="pane" prefHeight="491.0" prefWidth="275.0">
       <children>
-        <Circle fx:id="circleLeft" fill="WHITE" layoutX="300.0" layoutY="315.0" onDragOver="#DragOverCircleLeft" radius="196.0" stroke="BLACK" strokeType="INSIDE" />
+        <Circle fx:id="circleLeft" fill="WHITE" layoutX="300.0" layoutY="315.0" onDragOver="#DragOverCircleLeft" onMouseClicked="#setting" radius="196.0" stroke="BLACK" strokeType="INSIDE" />
         <Circle fx:id="circleRight" fill="#ffffff99" layoutX="600.0" layoutY="315.0" opacity="1.0" radius="190.5" stroke="BLACK" strokeType="INSIDE" />
         <Label fx:id="label" layoutX="132.0" layoutY="60.0" onDragDropped="#labelDragDropped" onMouseDragged="#labelMouseDragged" onMouseEntered="#labelMouseEntered" onMousePressed="#labelMousePressed" onMouseReleased="#labelMouseReleased" text="" />
         <ColorPicker fx:id="colorLeft" layoutX="60.0" layoutY="125.0" onAction="#colorLeftClicked" />
@@ -26,6 +26,12 @@
             <Button fx:id="resize" layoutX="705.0" layoutY="264.0" mnemonicParsing="false" onAction="#circleResize" text="Resize" visible="false" />
           </children>
         </Pane>
+        <VBox fx:id="propertySet" layoutX="23.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="126.0" prefWidth="199.0" visible="false">
+          <children>
+            <ColorPicker fx:id="colorSet" minHeight="16.0" minWidth="21.0" onAction="#setColor" prefHeight="23.94140625" prefWidth="35.0" />
+            <Slider fx:id="sizeSet" max="400.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseDragged="#setSize" prefHeight="33.0" prefWidth="75.0" value="300.0" />
+          </children>
+        </VBox>
       </children>
     </Pane>
   </center>
