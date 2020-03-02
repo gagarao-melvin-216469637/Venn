@@ -21,6 +21,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
@@ -37,6 +38,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -57,11 +59,15 @@ public class SampleController {
 	@FXML
 	private Pane pane1;
 	@FXML
+	private VBox propertySet;
+	@FXML
+	private Slider sizeSet;
+	@FXML
+	private ColorPicker colorSet;
+	@FXML
 	private ColorPicker textColor;
 	@FXML
 	private Button cancel;
-	@FXML
-	private Button screenshot;
 	@FXML
 	private TextField labelName;
 	@FXML
@@ -74,6 +80,7 @@ public class SampleController {
 	private Pane pane;
 	@FXML
 	private ColorPicker colorLeft;
+	private static Circle nodeToEdit;
 	@FXML
 	private ColorPicker colorRight;
 	@FXML
@@ -86,6 +93,8 @@ public class SampleController {
 	@FXML
 	private Button file;
 	@FXML
+	private MenuItem screenshot;
+	@FXML
 	private Circle circleLeft;
 	@FXML
 	private Circle circleRight;
@@ -97,7 +106,8 @@ public class SampleController {
 	private Rectangle rec;
 	private static Pane PANE;
 	private Stage popUp;
-	
+	@FXML
+	private MenuItem basicTemp;
 	@FXML
 	private ColorPicker color;
 	@FXML
@@ -106,20 +116,44 @@ public class SampleController {
 	private Circle circle;
 	@FXML
 	private Button create;
-
+	private static VBox PROPERTY;
+	
+	@FXML
+	private ColorPicker textBackground;
+	
 	@FXML
 	public void buttonClicked() {
 		Label label1 = new Label();
 		PANE = pane;
 		pane.getChildren().add(label1);
-
 		this.dragNode(label1);
 		this.delete(label1);
+		
 		information = textField.getText();
+//		if(information.length()>11) {
+//			char[] informationA = information.toCharArray();
+//			information="";
+//			for(int i=0; i<informationA.length;i++) {
+//				information+=informationA[i];
+//				if(i%11==0&&i>=11) {
+//					information+="\n";
+//				}
+//			}
+//		}
+		label1.setMaxWidth(50);
+		label1.setWrapText(true);
+		label1.setMaxHeight(Double.POSITIVE_INFINITY);
 		label1.setTextFill(textColor.getValue());
+		label1.setBackground(new Background(new BackgroundFill(textBackground.getValue(),new CornerRadii(5),Insets.EMPTY)));
 		label1.setText(information);
 	}
-
+	@FXML
+	public void basicTemp() {
+		circleLeft.setVisible(true);
+		circleRight.setVisible(true);
+		dragNode(circleLeft);
+		dragNode(circleRight);
+	}
 	@FXML
 	public void circleResize() {
 		dragNode(circleLeft);
@@ -160,6 +194,7 @@ public class SampleController {
 	public void createNewCircle() {
 		AnchorPane root1;
 		PANE = pane;
+		PROPERTY=propertySet;
 		try {
 			root1 = (AnchorPane) FXMLLoader.load(getClass().getResource("NewCircle.fxml"));
 			Scene scene1 = new Scene(root1, 600, 400);
@@ -178,17 +213,16 @@ public class SampleController {
 	public void addCircle() {
 		Circle addCircle = new Circle(450, 400, slider.getValue());
 		addCircle.setFill(color.getValue());
-
+		addCircle.setOpacity(0.8);
+		addCircle.setStroke(Color.BLACK);
+		
 		Stage popUpWindow = (Stage) create.getScene().getWindow();
 		popUpWindow.close();
 
 		
-//		addCircle.setFill(color.getValue());
-//		addCircle.setStroke(Color.BLACK);
-//		addCircle.setOpacity(0.6);
+		PANE.getChildren().addAll(addCircle);
 		dragNode(addCircle);
 		deleteCircle(addCircle);
-		PANE.getChildren().addAll(addCircle);
 	}
 	
 	@FXML
@@ -199,6 +233,7 @@ public class SampleController {
 	@FXML
 	public void colorNewCircle() {
 		circle.setFill(color.getValue());
+		circle.setOpacity(0.8);
 	}
 
 	@FXML
@@ -215,6 +250,8 @@ public class SampleController {
 
 		event.consume();
 	}
+	
+	
 
 	@FXML
 	public void labelDragDropped(DragEvent event) {
@@ -261,9 +298,10 @@ public class SampleController {
 
 	@FXML
 	public void saveAsPng() {
-		WritableImage image = new WritableImage((int) screenshot.getScene().getWidth(),
-				(int) screenshot.getScene().getHeight());
-		screenshot.getScene().snapshot(image);
+		
+		WritableImage image = new WritableImage((int) pane.getScene().getWidth(),
+				(int) pane.getScene().getHeight());
+		pane.getScene().snapshot(image);
 		FileChooser fileChooser = new FileChooser();
 
 		File newFile = fileChooser.showSaveDialog(new Stage());
@@ -273,10 +311,39 @@ public class SampleController {
 			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", newFile);
 			// System.out.println("snapshot saved: " + newFile.getAbsolutePath());
 		} catch (IOException ex) {
-
+			System.out.println("Nothing selected!");
 		}
 	}
-
+	
+	
+	
+	@FXML
+	public void setting(MouseEvent event) {
+		
+		if(propertySet.isVisible()&&(nodeToEdit == (Circle) event.getTarget())) {
+			propertySet.setVisible(false);
+			nodeToEdit = null;
+		}
+		else {
+			nodeToEdit = (Circle) event.getTarget();
+			
+			propertySet.setLayoutX(event.getSceneX());
+			propertySet.setLayoutY(event.getSceneY());
+			propertySet.setVisible(true);
+			
+		}
+	}
+	@FXML
+	public void setColor() {
+		nodeToEdit.setFill(colorSet.getValue());
+		nodeToEdit.setOpacity(0.8);
+		
+	}
+	@FXML
+	public void setSize() {
+		
+		nodeToEdit.setRadius(sizeSet.getValue());
+	}
 	public void textBoxOnEnter(TextField text) {
 
 		text.setOnKeyReleased(new EventHandler<KeyEvent>() {
@@ -295,7 +362,7 @@ public class SampleController {
 		node.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-
+				
 				if (node.getOpacity() == 0.5 && node == selectedNode) {
 					node.setOpacity(1);
 
@@ -304,6 +371,7 @@ public class SampleController {
 					node.setOpacity(0.5);
 
 					selectedNode = node;
+					PANE.requestFocus();
 				}
 
 			}
@@ -313,26 +381,42 @@ public class SampleController {
 			public void handle(KeyEvent keyEvent) {
 
 				if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+					
 					PANE.getChildren().remove(selectedNode);
 				}
 			}
 		});
 	}
-
+	
 	public void deleteCircle(Circle node) {
 		node.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				if (circleColor == null) {
-					circleColor = node.getFill();
-					node.setFill(Color.BLUE);
-					node.setOpacity(0.2);
-					selectedNode = node;
-				} else {
-					node.setFill(circleColor);
+				System.out.println(PROPERTY);
+				
+				if (selectedNode != node) {
+					
+					//node.setFill(Color.BLUE);
 					node.setOpacity(0.6);
+					selectedNode = node;
+					PANE.requestFocus();
+				} else {
+					
+					node.setOpacity(0.8);
 					circleColor = null;
 					selectedNode = null;
+				}
+				if(PROPERTY.isVisible()) {
+					PROPERTY.setVisible(false);
+					nodeToEdit = null;
+				}
+				else {
+					nodeToEdit = node;
+					
+					PROPERTY.setLayoutX(nodeToEdit.getCenterX()+nodeToEdit.getRadius());
+					PROPERTY.setLayoutY(nodeToEdit.getCenterY()+nodeToEdit.getRadius());
+					PROPERTY.setVisible(true);
+					
 				}
 
 			}
@@ -343,6 +427,7 @@ public class SampleController {
 
 				if (keyEvent.getCode().equals(KeyCode.DELETE)) {
 					PANE.getChildren().remove(selectedNode);
+					PROPERTY.setVisible(false);
 				}
 			}
 		});

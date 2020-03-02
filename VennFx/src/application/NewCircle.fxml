@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane minHeight="416.94140625" minWidth="597.0" prefHeight="416.94140625" prefWidth="597.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<AnchorPane minHeight="416.94140625" minWidth="597.0" prefHeight="416.94140625" prefWidth="597.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.SampleController">
   <!-- TODO Add Nodes -->
   <children>
     <Label contentDisplay="CENTER" layoutX="31.0" layoutY="63.0" text="Create a new circle" textAlignment="CENTER" />
-      <VBox layoutX="31.0" layoutY="100.0" prefWidth="100.0" spacing="10.0">
-         <children>
-          <ColorPicker fx:id="color" editable="true" onAction="#colorNewCircle" prefHeight="45.0" prefWidth="111.0" promptText="choose a color" />
-            <Separator prefHeight="30.0" prefWidth="100.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Circle Size" textAlignment="CENTER" wrappingWidth="100.501953125" />
-            <Slider fx:id="slider" max="200.0" min="50.0" onMouseDragged="#radiusNewCircle" />
-            <Separator prefHeight="30.0" prefWidth="100.0" />
-          <Button fx:id="create" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addCircle" prefHeight="25.0" prefWidth="108.0" text="Create" />
-         </children>
-      </VBox>
-      <Circle fx:id="circle" fill="#3582e1" layoutX="353.0" layoutY="206.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
+    <VBox layoutX="31.0" layoutY="100.0" prefWidth="100.0" spacing="10.0">
+      <children>
+        <ColorPicker fx:id="color" editable="true" onAction="#colorNewCircle">
+          <value>
+            <Color blue="0.882" green="0.509" red="0.196" />
+          </value>
+        </ColorPicker>
+        <Separator prefHeight="30.0" prefWidth="100.0" />
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Circle Size" textAlignment="CENTER" wrappingWidth="100.501953125" />
+        <Slider fx:id="slider" max="200.0" min="50.0" onMouseDragged="#radiusNewCircle" />
+        <Separator prefHeight="30.0" prefWidth="100.0" />
+        <Button fx:id="create" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addCircle" prefHeight="25.0" prefWidth="108.0" text="Create" />
+      </children>
+    </VBox>
+    <Circle fx:id="circle" fill="#3582e1" layoutX="353.0" layoutY="206.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
   </children>
   <padding>
     <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
