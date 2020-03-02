@@ -7,6 +7,8 @@ public class Main {
 //        c.increment();
 //        System.out.println(c.getValue());
     	System.out.println("ok");
+    	System.out.println("ok1");
+
     }
 
 }
