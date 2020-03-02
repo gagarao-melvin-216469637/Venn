@@ -320,7 +320,7 @@ public class SampleController {
 	@FXML
 	public void setting(MouseEvent event) {
 		
-		if(propertySet.isVisible()) {
+		if(propertySet.isVisible()&&(nodeToEdit == (Circle) event.getTarget())) {
 			propertySet.setVisible(false);
 			nodeToEdit = null;
 		}
