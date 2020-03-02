@@ -2,11 +2,11 @@ package Venn;
 
 public class Main {
 
-	public static void main(String[] args) {
-		//Hope you're having a great day
-		System.out.println("Lab 3");
-		int a = 5;
-		int b = 2;
-	}
+    public static void main(String[] args) {
+        Counter c = new Counter();
+        c.increment();
+        System.out.println(c.getValue());
+
+    }
 
 }
