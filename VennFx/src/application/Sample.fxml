@@ -15,21 +15,18 @@
   <center>
     <Pane fx:id="pane" prefHeight="491.0" prefWidth="275.0">
       <children>
-        <Circle fx:id="circleLeft" fill="WHITE" layoutX="355.0" layoutY="310.0" onDragOver="#DragOverCircleLeft" onMouseClicked="#setting" radius="196.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-        <Circle fx:id="circleRight" fill="#ffffff99" layoutX="551.0" layoutY="304.0" onMouseClicked="#setting" opacity="1.0" radius="190.5" stroke="BLACK" strokeType="INSIDE" visible="false" />
+        <Circle fx:id="circleLeft" fill="WHITE" layoutX="355.0" layoutY="310.0" onMouseClicked="#setting" radius="196.0" stroke="BLACK" strokeType="INSIDE" visible="true" />
+        <Circle fx:id="circleRight" fill="#ffffff99" layoutX="551.0" layoutY="304.0" onMouseClicked="#setting" opacity="1.0" radius="190.5" stroke="BLACK" strokeType="INSIDE" visible="true" />
         <Label fx:id="label" layoutX="132.0" layoutY="60.0" onDragDropped="#labelDragDropped" onMouseDragged="#labelMouseDragged" onMouseEntered="#labelMouseEntered" onMousePressed="#labelMousePressed" onMouseReleased="#labelMouseReleased" text="" />
-        <Pane fx:id="bottomPane" layoutX="34.0" layoutY="233.0">
-          <children>
-            <Button fx:id="newCircle" layoutX="39.0" layoutY="239.0" mnemonicParsing="false" onAction="#createNewCircle" text="New Circle" />
-            <Button fx:id="resize" layoutX="705.0" layoutY="264.0" mnemonicParsing="false" onAction="#circleResize" text="Resize" visible="false" />
-          </children>
-        </Pane>
         <VBox fx:id="propertySet" layoutX="23.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="126.0" prefWidth="199.0" visible="false">
           <children>
             <ColorPicker fx:id="colorSet" minHeight="16.0" minWidth="21.0" onAction="#setColor" prefHeight="23.94140625" prefWidth="35.0" />
             <Slider fx:id="sizeSet" max="400.0" maxHeight="-Infinity" maxWidth="-Infinity" onMouseDragged="#setSize" prefHeight="33.0" prefWidth="75.0" value="300.0" />
           </children>
         </VBox>
+        <VBox fx:id="vLeft" layoutX="222.0" layoutY="168.0" prefHeight="279.0000999999975" prefWidth="138.49990000000253" />
+        <VBox fx:id="vMiddle" layoutX="407.0" layoutY="182.0" prefHeight="251.0001220703125" prefWidth="95.00009999999747" />
+        <VBox fx:id="vRight" layoutX="542.0" layoutY="168.0" prefHeight="278.0001220703125" prefWidth="131.99990000000253" />
       </children>
     </Pane>
   </center>
@@ -81,6 +78,7 @@
                 <Color blue="1.000" green="1.000" red="1.000" />
               </value>
             </ColorPicker>
+            <Button fx:id="newCircle" mnemonicParsing="false" onAction="#createNewCircle" text="New Circle" />
           </children>
           <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

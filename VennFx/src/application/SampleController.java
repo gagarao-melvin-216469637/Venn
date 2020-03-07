@@ -11,10 +11,13 @@ import com.sun.javafx.logging.Logger;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -23,6 +26,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.ClipboardContent;
@@ -38,6 +42,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -49,6 +54,19 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class SampleController {
+	@FXML
+	private VBox vMiddle;
+	@FXML
+	private VBox vRight;
+	@FXML
+	private StackPane left;
+	@FXML
+	private StackPane middle;
+	@FXML
+	private TextArea areaLeft;
+	@FXML
+	private StackPane right;
+	private static Group GROUPLEFT = new Group();
 	private static Paint circleColor;
 	private static Node selectedNode;
 	private static Circle LEFT;
@@ -78,6 +96,9 @@ public class SampleController {
 	private Button insert;
 	@FXML
 	private Pane pane;
+
+	@FXML
+	private VBox vLeft;
 	@FXML
 	private ColorPicker colorLeft;
 	private static Circle nodeToEdit;
@@ -140,20 +161,29 @@ public class SampleController {
 //				}
 //			}
 //		}
+		
 		label1.setMaxWidth(50);
 		label1.setWrapText(true);
 		label1.setMaxHeight(Double.POSITIVE_INFINITY);
 		label1.setTextFill(textColor.getValue());
 		label1.setBackground(new Background(new BackgroundFill(textBackground.getValue(),new CornerRadii(5),Insets.EMPTY)));
 		label1.setText(information);
-	}
+		dragInto(label1,vLeft);
+		dragInto(label1,vMiddle);
+		dragInto(label1,vRight);
+		}
 	@FXML
 	public void basicTemp() {
 		circleLeft.setVisible(true);
 		circleRight.setVisible(true);
 		dragNode(circleLeft);
 		dragNode(circleRight);
+		
+		
 	}
+	
+	
+	
 	@FXML
 	public void circleResize() {
 		dragNode(circleLeft);
@@ -247,6 +277,7 @@ public class SampleController {
 			/* allow for moving */
 			event.acceptTransferModes(TransferMode.MOVE);
 		}
+		
 
 		event.consume();
 	}
@@ -303,9 +334,9 @@ public class SampleController {
 				(int) pane.getScene().getHeight());
 		pane.getScene().snapshot(image);
 		FileChooser fileChooser = new FileChooser();
-
+		fileChooser.setInitialFileName("VennDiagram.png");
 		File newFile = fileChooser.showSaveDialog(new Stage());
-
+		
 		// TODO: probably use a file chooser here
 		try {
 			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", newFile);
@@ -418,6 +449,11 @@ public class SampleController {
 					PROPERTY.setVisible(true);
 					
 				}
+				if(mouseEvent.getClickCount()==2) {
+					TextField textContent = new TextField();
+					textContent.setTranslateX(node.getTranslateX());
+					textContent.setTranslateY(node.getTranslateY());
+				}
 
 			}
 		});
@@ -432,7 +468,20 @@ public class SampleController {
 			}
 		});
 	}
-
+	public void consumeDrag(Circle circle) {
+		circle.setOnDragDropped(new EventHandler<DragEvent>() {
+			@Override
+			public void handle(DragEvent event) {
+				
+				Label element = (Label) event.getTarget();
+				
+				GROUPLEFT.getChildren().addAll(circle,element);
+				GROUPLEFT.setAutoSizeChildren(true);
+				
+			}
+		});
+	}
+	
 	// Method to make sure every label created is draggable
 	public void dragNode(Node node) {
 		// Custom object to hold x and y positions
@@ -450,7 +499,9 @@ public class SampleController {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
 				node.setCursor(Cursor.HAND);
+				
 			}
+			
 		});
 
 		node.setOnMouseDragged(new EventHandler<MouseEvent>() {
@@ -473,4 +524,116 @@ public class SampleController {
 	class Delta {
 		double x, y;
 	};
+	public void deleteV(Label label, VBox v) {
+
+		label.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				
+				if (label.getOpacity() == 0.5 && label == selectedNode) {
+					label.setOpacity(1);
+
+					selectedNode = null;
+				} else {
+					label.setOpacity(0.5);
+
+					selectedNode = label;
+					v.requestFocus();;
+				}
+
+			}
+		});
+
+		v.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent keyEvent) {
+
+				if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+					
+					v.getChildren().remove(selectedNode);
+				}
+			}
+		});
+	}
+	
+public void dragInto(Label source, VBox target) {
+	source.setOnDragDetected(event -> {
+        /* drag was detected, start drag-and-drop gesture */
+
+        /* allow any transfer mode */
+        Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+
+        /* put a string on dragboard */
+        ClipboardContent content = new ClipboardContent();
+        content.putString(source.getText());
+        db.setContent(content);
+
+        event.consume();
+    });
+
+    target.setOnDragOver(event -> {
+        /* data is dragged over the target */
+
+        /*
+         * accept it only if it is not dragged from the same node and if it
+         * has a string data
+         */
+        if (event.getGestureSource() != target && event.getDragboard().hasString()) {
+            /* allow for both copying and moving, whatever user chooses */
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+        }
+
+        event.consume();
+    });
+
+    target.setOnDragEntered(event -> {
+        /* the drag-and-drop gesture entered the target */
+        /* show to the user that it is an actual gesture target */
+        if (event.getGestureSource() != target && event.getDragboard().hasString()) {
+            
+        }
+
+        event.consume();
+    });
+
+    target.setOnDragExited(event -> {
+        /* mouse moved away, remove the graphical cues */
+        
+
+        event.consume();
+    });
+
+    target.setOnDragDropped(event -> {
+        /* data dropped */
+        /* if there is a string data on dragboard, read it and use it */
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        if (db.hasString()) {
+        	target.alignmentProperty();
+        	Label child = new Label(db.getString());
+        	child.setBackground(source.getBackground());
+           target.getChildren().add(child);
+           deleteV(child,target);
+           
+            success = true;
+        }
+        /*
+         * let the source know whether the string was successfully
+         * transferred and used
+         */
+        event.setDropCompleted(success);
+
+        event.consume();
+    });
+
+    source.setOnDragDone(event -> {
+        /* the drag-and-drop gesture ended */
+        /* if the data was successfully moved, clear it */
+        if (event.getTransferMode() == TransferMode.MOVE) {
+            source.setText("");
+        }
+
+        event.consume();
+    });
+
+}
 }
