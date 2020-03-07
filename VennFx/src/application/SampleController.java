@@ -610,6 +610,7 @@ public void dragInto(Label source, VBox target) {
         if (db.hasString()) {
         	target.alignmentProperty();
         	Label child = new Label(db.getString());
+        	child.setTextFill(source.getTextFill());
         	child.setBackground(source.getBackground());
            target.getChildren().add(child);
            deleteV(child,target);
